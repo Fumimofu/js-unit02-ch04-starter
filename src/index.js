@@ -17,11 +17,12 @@ class Character {
   }
 
   attack(defender) {
+    const damage = this.offensePower - defender.defencePower;
     if (defender.hp !== 0) {
       if (defender.hp <= this.offensePower) {
-        console.log(`${this.name}の攻撃！${defender.name}に???のダメージ！${defender.name}は力尽きた！`);
+        console.log(`${this.name}の攻撃！${defender.name}に${damage}のダメージ！${defender.name}は力尽きた！`);
       } else {
-        console.log(`${this.name}の攻撃！${defender.name}に???のダメージ！`);
+        console.log(`${this.name}の攻撃！${defender.name}に${damage}のダメージ！`);
       }
     } else {
       console.log(`${this.name}の攻撃！しかし${defender.name}はHPが0なので攻撃できない！`)
