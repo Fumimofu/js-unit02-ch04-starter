@@ -21,7 +21,7 @@ class Character {
     if (this.hp === 0) {
       main.innerHTML = `<p>${this.name}の攻撃！しかし${defender.name}はHPが0なので攻撃できない！</p>`;
     } else {
-      main.innerHTML = `<p>${this.name}の攻撃！${defender.name}に${damage}のダメージ！</p>`;
+      main.innerHTML = `<p>${this.name}の攻撃！${defender.name}に???のダメージ！</p>`;
     }
  
     // const damage = this.offensePower - defender.defencePower;
