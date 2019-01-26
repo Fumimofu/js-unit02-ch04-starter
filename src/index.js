@@ -10,6 +10,10 @@ class Character {
   }
 
   showStatus() {
+    if (this.hp < 0) {
+      this.hp = 0;
+    }
+
     const main = document.getElementById('main');
     main.innerHTML = `<p>${this.name} HP : ${this.hp} / MP : ${this.mp}</p>`;
 
@@ -27,11 +31,16 @@ class Character {
     }
 
     if (defender.hp <= 0) {
-      main.innerHTML = `<p>${defender.name}は死んでいるので攻撃できない！</p>`;
+      main.innerHTML = `<p>${this.name}の攻撃！しかし${defender.name}はすでに死んでいる。</p>`;
       return;
     }
 
-    const damage = this.calcAttackDamage(defender);
+    let damage = this.calcAttackDamage(defender);
+
+    if (damage <= 0) {
+      damage = 1;
+    }
+
     defender.hp -= damage;
 
     if (defender.hp <= 0) {
@@ -48,12 +57,7 @@ class Character {
   }
 
   calcAttackDamage(defender) {
-    const damage = this.offensePower - defender.defencePower;
-    if (damage < 0) {
-      return defender.hp -= 1;
-    } else {
-      return defender.hp -= damage;
-    }
+    return this.offensePower - defender.defencePower;
     /*
       ダメージは単純に攻撃力から防御力を引いて計算する。
       ダメージが0未満の場合は、最低のダメージ1を与える。
@@ -71,18 +75,20 @@ class Sorcerer extends Character {
 
     if (this.hp <= 0) {
       main.innerHTML = `<p>${this.name}は死んでいるので魔法が使えない！</p>`;
+      return;
     }
 
     if (target.hp <= 0) {
-      main.innerHTML = `<p>${target.name}は死んでいるので回復できない！</p>`;
+      main.innerHTML = `<p>ヒール！しかし${target.name}は死んでいるので回復できない。</p>`;
+      return;
     }
 
     if (this.mp < 3) {
       main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
     }　else {
-      const thisMp = this.mp -= 3;
-      const heal = target.hp += 15;
-      main.innerHTML = `<p>ヒール！${target.name}のHPは${heal}に増えた！${this.name}のMPは${thisMp}に減った！</p>`;
+      this.mp -= 3;
+      target.hp += 15;
+      main.innerHTML = `<p>ヒール！${target.name}のHPは${target.hp}に増えた！${this.name}のMPは${this.mp}に減った！</p>`;
     }
 
     /* 
@@ -98,19 +104,21 @@ class Sorcerer extends Character {
     const main = document.getElementById('main');
 
     if (this.hp <= 0) {
-      main.innerHTML = `<p>${this.name}は死んでいるので魔法が使えない！</p>`
+      main.innerHTML = `<p>${this.name}は死んでいるので魔法が使えない！</p>`;
+      return;
     }
 
     if (target.hp <= 0) {
-      main.innerHTML = `<p>${target}は死んでいるので回復できない！</p>`
+      main.innerHTML = `<p>ファイア！しかし${target.name}はすでに死んでいる。</p>`;
+      return;
     }
 
     if (this.mp < 2) {
-      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`
+      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
     } else {
-      const thisMp = this.mp -= 2;
-      const damage = target.hp -= 10;
-      main.innerHTML = `<p>ファイア！${target.name}に${damage}のダメージ！${this.name}のMPは${thisMp}に減った！</p>`
+      this.mp -= 2;
+      target.hp -= 10;
+      main.innerHTML = `<p>ファイア！${target.name}に10のダメージ！${this.name}のMPは${this.mp}に減った！</p>`;
     }
 
     /* 
@@ -125,21 +133,21 @@ class Sorcerer extends Character {
 
 {
   const fighter = new Character({
-    name: '武道家🕺',
+    name: '武道家',
     hp: 40,
     mp: 0,
     offensePower: 15,
     defencePower: 10
   })
   const sorcerer = new Sorcerer({
-    name: '魔法使い👩‍🎨',
+    name: '魔法使い',
     hp: 25,
     mp: 10,
     offensePower: 8,
     defencePower: 10
   })
   const monster = new Character({
-    name: 'モンスター😈',
+    name: 'モンスター',
     hp: 60,
     mp: 0,
     offensePower: 30,
@@ -147,6 +155,7 @@ class Sorcerer extends Character {
   })
 
   fighter.attack(monster);
+  debugger;
   sorcerer.attack(monster);
   monster.attack(sorcerer);
   fighter.attack(monster);
