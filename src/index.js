@@ -84,12 +84,12 @@ class Sorcerer extends Character {
       return;
     }
 
-    if (this.mp < 3) {
-      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
-    }　else {
+    if (this.mp >= 3) {
       this.mp -= 3;
       target.hp += 15;
       main.innerHTML = `<p>ヒール！${target.name}のHPは${target.hp}に増えた！${this.name}のMPは${this.mp}に減った！</p>`;
+    }　else {
+      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
     }
 
     /* 
@@ -114,12 +114,12 @@ class Sorcerer extends Character {
       return;
     }
 
-    if (this.mp < 2) {
-      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
-    } else {
+    if (this.mp >= 2) {
       this.mp -= 2;
       target.hp -= 10;
       main.innerHTML = `<p>ファイア！${target.name}に10のダメージ！${this.name}のMPは${this.mp}に減った！</p>`;
+    } else {
+      main.innerHTML = `<p>MPが足りないのでこの魔法は使えない！</p>`;
     }
 
     /* 
