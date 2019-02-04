@@ -24,6 +24,9 @@ class Character {
 
   attack(defender) {
     const main = document.getElementById('main');
+    const damage = this.calcAttackDamage(defender);
+
+    defender.hp -= damage;
 
     if (this.hp <= 0) {
       main.innerHTML = `<p>${this.name}は死んでいるので攻撃できない！</p>`;
@@ -34,14 +37,6 @@ class Character {
       main.innerHTML = `<p>${this.name}の攻撃！しかし${defender.name}はすでに死んでいる。</p>`;
       return;
     }
-
-    let damage = this.calcAttackDamage(defender);
-
-    if (damage <= 0) {
-      damage = 1;
-    }
-
-    defender.hp -= damage;
 
     if (defender.hp <= 0) {
       main.innerHTML = `<p>${this.name}は${defender.name}に${damage}のダメージを与えた！${defender.name}は力尽きた。</p>`;
@@ -57,7 +52,13 @@ class Character {
   }
 
   calcAttackDamage(defender) {
-    return this.offensePower - defender.defencePower;
+    let damage;
+
+    if (damage <= 0) {
+      damage = 1;
+    } else {
+      damage = this.offensePower - defender.defencePower;
+    }
     /*
       ダメージは単純に攻撃力から防御力を引いて計算する。
       ダメージが0未満の場合は、最低のダメージ1を与える。
