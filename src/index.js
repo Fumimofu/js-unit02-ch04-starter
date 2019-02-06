@@ -10,13 +10,13 @@ class Character {
   }
 
   showStatus() {
-    if (this.hp < 0) {
-      this.hp = 0;
-    }
-
     const main = document.getElementById('main');
     main.innerHTML = `<p>${this.name} HP : ${this.hp} / MP : ${this.mp}</p>`;
 
+    if (this.hp < 0) {
+      this.hp = 0;
+      return;
+    }
     /* 
       キャラクターの名前、HP、MPを表示する。
     */
@@ -52,12 +52,12 @@ class Character {
   }
 
   calcAttackDamage(defender) {
-    let damage;
+    let damage = this.offensePower - defender.defencePower;
+    console.log(damage);
 
     if (damage <= 0) {
       damage = 1;
-    } else {
-      damage = this.offensePower - defender.defencePower;
+      return;
     }
     /*
       ダメージは単純に攻撃力から防御力を引いて計算する。
