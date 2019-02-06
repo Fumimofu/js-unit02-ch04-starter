@@ -53,12 +53,13 @@ class Character {
 
   calcAttackDamage(defender) {
     let damage = this.offensePower - defender.defencePower;
-    console.log(damage);
 
     if (damage <= 0) {
       damage = 1;
-      return;
+      // return;　が実はあるが省略できる。
     }
+    
+    return damage;
     /*
       ダメージは単純に攻撃力から防御力を引いて計算する。
       ダメージが0未満の場合は、最低のダメージ1を与える。
@@ -156,10 +157,9 @@ class Sorcerer extends Character {
   })
 
   fighter.attack(monster);
-  debugger;
   sorcerer.attack(monster);
   monster.attack(sorcerer);
-  fighter.attack(monster);
+  // fighter.attack(monster);
   sorcerer.healSpell(sorcerer);
   monster.attack(fighter);
   fighter.attack(monster);
@@ -168,4 +168,6 @@ class Sorcerer extends Character {
   fighter.showStatus();
   sorcerer.showStatus();
   monster.showStatus();
+  fighter.attack(monster);
+  sorcerer.healSpell(fighter);
 }
